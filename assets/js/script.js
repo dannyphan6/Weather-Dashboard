@@ -43,7 +43,7 @@ let secondFetch = function () {
 }
 
 let thirdFetch = function () {
-    let apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=122.3321&lon=47.6062&exclude=current,daily,alerts&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
+    let apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=47.608013&lon=-122.335167&exclude=current,daily,alerts&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
 
     fetch(apiURL)
     .then(function(response) {
@@ -56,6 +56,7 @@ let thirdFetch = function () {
 
 weatherAPI();
 secondFetch();
+thirdFetch();
 
 $("#searchBtn").on("click", function () {
     let searchCity = $("#search-city").val().trim();
