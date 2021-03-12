@@ -1,10 +1,5 @@
-// const searchCity
-
-
-// 3 separate fetches
-
 let weatherAPI = function () {
-    let apiURL = "https:/api.openweathermap.org/data/2.5/weather?q=Seattle&units=imperial&appid=39f9546ef6f0a5b89bcb24b85f3a883a";
+    let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=Seattle&units=imperial&appid=39f9546ef6f0a5b89bcb24b85f3a883a";
 
 
     fetch(apiURL)
@@ -24,20 +19,37 @@ let weatherAPI = function () {
             let currentWeatherCondition = data.weather[0].main;
             console.log(currentWeatherCondition);
 
-            let windSpeed = data.wind.speed;
-            console.log(windSpeed);
-            $("#current-wind-speed").text("Wind Speed: " + windSpeed + " MPH");
+            let currentHumidity = data.main.humidity;
+            console.log(currentHumidity);
+            $("#current-humidity").text("Humidity: " + currentHumidity + "%");
+
+            let currentWindSpeed = data.wind.speed;
+            console.log(currentWindSpeed);
+            $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + " MPH");
         })
     })
 }
 
 let secondFetch = function () {
-    let apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=current,hourly,daily&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
+    let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=Seattle&units=imperial&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
 
-    .fetch(apiURL)
+    fetch(apiURL)
     .then(function(response) {
         response.json().then(function(data) {
             console.log(data)
+            console.log(response)
+        })
+    })
+}
+
+let thirdFetch = function () {
+    let apiURL = "https://api.openweathermap.org/data/2.5/onecall?lat=122.3321&lon=47.6062&exclude=current,daily,alerts&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
+
+    fetch(apiURL)
+    .then(function(response) {
+        response.json().then(function(data) {
+            console.log(data)
+            console.log(response)
         })
     })
 }
