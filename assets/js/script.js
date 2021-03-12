@@ -12,8 +12,21 @@ let weatherAPI = function() {
         response.json().then(function(data) {
             console.log(data)
             console.log(response)
+
+            let currentCity = data.name;
+            console.log(currentCity);
+
+            let currentTemp = data.main.temp;
+            console.log(currentTemp);
+
+            let currentWeatherCondition = data.weather[0].main;
+            console.log(currentWeatherCondition);
+
+            let windSpeed = data.wind.speed;
+            console.log(windSpeed);
         })
     })
+
 }
 
 weatherAPI();
