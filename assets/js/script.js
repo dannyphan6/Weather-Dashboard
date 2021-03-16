@@ -4,12 +4,15 @@ let weatherAPI = function () {
     fetch(apiURL)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log(data)
                 console.log(response)
+                console.log(data)
 
                 let currentCity = data.name;
                 console.log(currentCity);
+                
                 $("#current-city").text("Name of City: " + currentCity);
+                let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
+                $("#current-city").append(currentCityImg)
 
                 let currentTemp = data.main.temp;
                 console.log(currentTemp);
@@ -34,30 +37,36 @@ let secondFetch = function () {
     let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=Seattle&units=imperial&appid=39f9546ef6f0a5b89bcb24b85f3a883a"
 
     fetch(apiURL)
-    .then(function(response) {
-        response.json().then(function(data) {
-            console.log(data);
-            console.log(response);
+        .then(function (response) {
+            response.json().then(function (data) {
+                console.log(data);
+                console.log(response);
 
-            for (i=0; i < data.list.length; i++) {
-                if (data.list[i].dt_txt.indexOf("00:00:00") !== -1) {
-                    console.log(data.list[i]);
-                    var fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
-                    var pTag = $("<p>").text(fiveDayDate);
-                    console.log(pTag);
-                    
-                    let fiveDayTemp = data.list[i].main.temp;
-                    console.log(fiveDayTemp);
-                    
-                    let fiveDayHumidity = data.list[i].main.humidity;
-                    console.log(fiveDayHumidity);
-                    
-                    $(`#Day-${index}`).append(pTag).append(fiveDayHumidity).append(fiveDayTemp);
-                    index++;
+                for (i = 0; i < data.list.length; i++) {
+                    // This is saying in dt_txt look for the value of 00:00:00
+                    // If the value of 00:00:00 doesn't exist, then the array is empty because an array can't have a negative index 
+                    if (data.list[i].dt_txt.indexOf("00:00:00") !== -1) {
+                        console.log(data.list[i]);
+                        let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
+                        let pTagOne = $("<p>").text(fiveDayDate);
+                        console.log(pTagOne);
+
+                        let fiveDayTemp = data.list[i].main.temp;
+                        let pTagTwo = $("<p>").text(fiveDayTemp)
+                        console.log(pTagTwo);
+
+                        let fiveDayHumidity = data.list[i].main.humidity;
+                        let pTagThree = $("<p>").text(fiveDayHumidity)
+                        console.log(pTagThree);
+
+                        $(`#Day-${index}`).append(pTagOne)
+                        $(`#Day-${index}`).append(pTagTwo);
+                        $(`#Day-${index}`).append(fiveDayHumidity)
+                        index++;
+                    }
                 }
-            }
+            })
         })
-    })
 }
 
 let thirdFetch = function () {
