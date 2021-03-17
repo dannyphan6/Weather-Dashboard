@@ -1,5 +1,5 @@
 const apiKey = "39f9546ef6f0a5b89bcb24b85f3a883a"
-// const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
+const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
 
 let weatherAPI = function (city) {
     let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
@@ -89,19 +89,15 @@ let fiveDayWeather = function (city) {
         })
 };
 
-// weatherAPI();
-// fiveDayWeather();
-
-
 $("#searchBtn").on("click", function (event) {
+    // prevents the page from refreshing, which will allow the data from API to populate in the cards
     event.preventDefault();
     let searchCity = $("#search-city").val().trim();
-    // locationInput.push(searchCity);
+    locationInput.push(searchCity);
     console.log(searchCity);
-    localStorage.setItem("City", searchCity);
+    localStorage.setItem("locationArray", JSON.stringify(locationInput));
+    // Passing in the user input value as an argument into the functions
     weatherAPI(searchCity);
     fiveDayWeather(searchCity);
 
 })
-// hard code city name
-// get data and returning data
