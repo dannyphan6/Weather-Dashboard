@@ -45,6 +45,9 @@ let weatherAPI = function (city) {
                         let uvIndex = data.current.uvi;
                         console.log(uvIndex);
                         $("#uv-index").text("UV Index: " + uvIndex);
+                        if (uvIndex <= 2) {
+                            uvIndex.addClass(".green")
+                        } 
                     })
                 })
             })
@@ -90,6 +93,10 @@ let fiveDayWeather = function (city) {
             })
         })
 };
+
+function loadPreviousData() {
+
+}
 
 $("#searchBtn").on("click", function (event) {
     // prevents the page from refreshing, which will allow the data from API to populate in the cards
