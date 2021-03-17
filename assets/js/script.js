@@ -68,8 +68,9 @@ let fiveDayWeather = function (city) {
                         console.log(data.list[i]);
                         let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
                         let pTagOne = $("<h4>").text(fiveDayDate);
-                        console.log(pTagOne);
-                        // let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i])
+                        console.log(data.list[i]);
+                        let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png")
+                        console.log(fiveDayDateImg);
 
                         let fiveDayTemp = data.list[i].main.temp;
                         let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + "°F");
@@ -80,6 +81,7 @@ let fiveDayWeather = function (city) {
                         console.log(pTagThree);
 
                         $(`#Day-${index}`).append(pTagOne);
+                        $(`#Day-${index}`).append(fiveDayDateImg);
                         $(`#Day-${index}`).append(pTagTwo);
                         $(`#Day-${index}`).append(pTagThree);
                         index++;
