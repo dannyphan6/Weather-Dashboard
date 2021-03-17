@@ -1,7 +1,8 @@
 const apiKey = "39f9546ef6f0a5b89bcb24b85f3a883a"
+const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
 
-let weatherAPI = function () {
-    let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=Seattle&units=imperial&appid=" + apiKey;
+let weatherAPI = function (city) {
+    let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
         .then(function (response) {
@@ -51,8 +52,8 @@ let weatherAPI = function () {
 };
 
 let index = 1;
-let fiveDayWeather = function () {
-    let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=Seattle&units=imperial&appid=" + apiKey;
+let fiveDayWeather = function (city) {
+    let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
         .then(function (response) {
@@ -88,15 +89,16 @@ let fiveDayWeather = function () {
         })
 };
 
-weatherAPI();
-fiveDayWeather();
+// weatherAPI();
+// fiveDayWeather();
 
 
 $("#searchBtn").on("click", function () {
     let searchCity = $("#search-city").val().trim();
+    console.log(searchCity);
     localStorage.setItem("City", searchCity);
-    weatherAPI();
-    fiveDayWeather();
+    weatherAPI(searchCity);
+    fiveDayWeather(searchCity);
 
 })
 // hard code city name
