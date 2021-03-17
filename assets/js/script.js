@@ -19,7 +19,7 @@ let weatherAPI = function (city) {
 
                 let currentTemp = data.main.temp;
                 console.log(currentTemp);
-                $("#current-temp").text("Temperature: " + Math.round(currentTemp) + " °F");
+                $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
 
                 let currentWeatherCondition = data.weather[0].main;
                 console.log(currentWeatherCondition);
@@ -30,7 +30,7 @@ let weatherAPI = function (city) {
 
                 let currentWindSpeed = data.wind.speed;
                 console.log(currentWindSpeed);
-                $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + " MPH");
+                $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
 
                 let currentLat = data.coord.lat
                 let currentLon = data.coord.lon
@@ -72,16 +72,16 @@ let fiveDayWeather = function (city) {
                         // let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i])
 
                         let fiveDayTemp = data.list[i].main.temp;
-                        let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + " °F");
+                        let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + "°F");
                         console.log(pTagTwo);
 
                         let fiveDayHumidity = data.list[i].main.humidity;
-                        let pTagThree = $("<p>").text("Humidity: " + fiveDayHumidity + " %");
+                        let pTagThree = $("<p>").text("Humidity: " + fiveDayHumidity + "%");
                         console.log(pTagThree);
 
                         $(`#Day-${index}`).append(pTagOne);
                         $(`#Day-${index}`).append(pTagTwo);
-                        $(`#Day-${index}`).append(fiveDayHumidity);
+                        $(`#Day-${index}`).append(pTagThree);
                         index++;
                     }
                 }
