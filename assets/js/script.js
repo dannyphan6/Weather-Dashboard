@@ -1,5 +1,5 @@
 const apiKey = "39f9546ef6f0a5b89bcb24b85f3a883a"
-const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
+// const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
 
 let weatherAPI = function (city) {
     let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
@@ -93,8 +93,10 @@ let fiveDayWeather = function (city) {
 // fiveDayWeather();
 
 
-$("#searchBtn").on("click", function () {
+$("#searchBtn").on("click", function (event) {
+    event.preventDefault();
     let searchCity = $("#search-city").val().trim();
+    // locationInput.push(searchCity);
     console.log(searchCity);
     localStorage.setItem("City", searchCity);
     weatherAPI(searchCity);
