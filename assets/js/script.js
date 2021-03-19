@@ -45,7 +45,7 @@ let weatherAPI = function (city) {
                         console.log(uvIndex);
                         $("#uv-index").text("UV Index: " + uvIndex);
                         if (uvIndex <= 2) {
-                            $(".row").children(".card-body").children(".index-value").addClass("green")
+                            $(".index-value").addClass("green")
                         } 
                     })
                 })
@@ -91,7 +91,20 @@ let fiveDayWeather = function (city) {
 };
 
 function loadPreviousData() {
+    console.log(locationInput);
+    // Targets the id of search-city and clears the input field
+    $("#search-city").empty("")
 
+    $(locationInput).each(function(index) {
+        console.log(index);
+
+        let reloadSearch = locationInput[index];
+        console.log(reloadSearch);
+
+        let createListItem = $("<li>").text(reloadSearch)
+        console.log(createListItem)
+        $("#previous-search").append(createListItem)
+    })
 }
 
 $("#searchBtn").on("click", function (event) {
@@ -107,5 +120,6 @@ $("#searchBtn").on("click", function (event) {
     // Passing in the user input value as an argument into the functions
     weatherAPI(searchCity);
     fiveDayWeather(searchCity);
+    loadPreviousData();
 
 })
