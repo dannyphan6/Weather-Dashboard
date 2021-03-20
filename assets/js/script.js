@@ -43,9 +43,11 @@ let weatherAPI = function (city) {
                         console.log(data);
                         let uvIndex = data.current.uvi;
                         console.log(uvIndex);
-                        $("#uv-index").text("UV Index: " + uvIndex);
+                        $("#uv-color").removeClass("hide")
+                        $("#uv-index").prepend("UV Index: ")
+                        $("#uv-color").text(uvIndex);
                         if (uvIndex <= 2) {
-                            $(".index-value").addClass("green")
+                            $("#uv-color").addClass("green")
                         } 
                     })
                 })
@@ -92,20 +94,32 @@ let fiveDayWeather = function (city) {
 
 function loadPreviousData() {
     console.log(locationInput);
-    // Targets the id of search-city and clears the input field
-    $("#search-city").empty("")
+    // Targets the id of previous-search and clears the previous searches
+    $("#previous-search").empty("")
 
-    $(locationInput).each(function(index) {
+    let newVariable = locationInput.slice(0, 10)
+    $(newVariable).each(function(index) {
         console.log(index);
 
         let reloadSearch = locationInput[index];
         console.log(reloadSearch);
 
-        let createListItem = $("<li>").text(reloadSearch)
-        console.log(createListItem)
-        $("#previous-search").append(createListItem)
+        // let createListItem = $("<li>").text(reloadSearch)
+        // console.log(createListItem)
+
+        let createListBtn = $("<li>").text(reloadSearch).addClass("list-group-item list-group-item-action")
+        
+        console.log(createListBtn)
+        $("#previous-search").append(createListBtn)
+
+    
     })
 }
+
+$("#previous-search").on("click", "li", function() {
+    console.log("randomText")
+    weatherAPI($(this).text());
+})
 
 $("#searchBtn").on("click", function (event) {
     // prevents the page from refreshing, which will allow the data from API to populate in the cards
@@ -113,13 +127,19 @@ $("#searchBtn").on("click", function (event) {
     let searchCity = $("#search-city").val().trim();
     
     // Takes the string value from user input and pushes it into an array
-    locationInput.push(searchCity);
-    console.log(searchCity);
-    localStorage.setItem("locationArray", JSON.stringify(locationInput));
-    
-    // Passing in the user input value as an argument into the functions
+    if (locationInput.indexOf(searchCity) === -1) {
+
+        locationInput.push(searchCity);
+        console.log(searchCity);
+        localStorage.setItem("locationArray", JSON.stringify(locationInput));
+        
+    }
+    // Passing in the user input value as an argument into the functions to be used later
     weatherAPI(searchCity);
     fiveDayWeather(searchCity);
     loadPreviousData();
-
+    
 })
+
+// When the user refreshes the page, this function will run, which will show the previous searches
+loadPreviousData();

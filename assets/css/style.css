@@ -1,3 +1,7 @@
 .green {
     background-color: green;
 }
+
+.hide {
+    display: none;
+}
