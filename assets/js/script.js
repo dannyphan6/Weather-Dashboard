@@ -43,17 +43,22 @@ let weatherAPI = function (city) {
                         console.log(data);
                         let uvIndex = data.current.uvi;
                         console.log(uvIndex);
+                        $("#uv-index").empty("");
                         $("#uv-color").removeClass("hide")
                         $("#uv-index").prepend("UV Index: ")
                         $("#uv-color").text(uvIndex);
                         if (uvIndex <= 2) {
+                            $("#uv-color").removeClass();
                             $("#uv-color").addClass("green");
                         } else if (uvIndex <= 5) {
+                            $("#uv-color").removeClass();
                             $("#uv-color").addClass("yellow");
                         } else if (uvIndex <= 7) {
+                            $("#uv-color").removeClass();
                             $("#uv-color").addClass("orange");
                         } else if (uvIndex <= 10) {
-                            $("#uv-color").addClass("red")
+                            $("#uv-color").removeClass();
+                            $("#uv-color").addClass("red");
                         }
                     })
                 })
@@ -70,6 +75,11 @@ let fiveDayWeather = function (city) {
         response.json().then(function (data) {
             console.log(data);
 
+            $(`#Day-1`).empty("")
+            $(`#Day-2`).empty("")
+            $(`#Day-3`).empty("")
+            $(`#Day-4`).empty("")
+            $(`#Day-5`).empty("")
             for (i = 0; i < data.list.length; i++) {
                 // This is saying in dt_txt look for the value of 00:00:00
                 // If the value of 00:00:00 doesn't exist, then the array is empty because an array can't have a negative index 
@@ -121,6 +131,7 @@ function loadPreviousData() {
 // Function executes the weatherAPI, which will display city weather into the id of previous-search
 $("#previous-search").on("click", "li", function() {
     weatherAPI($(this).text());
+    fiveDayWeather($(this).text());
 })
 
 $("#searchBtn").on("click", function (event) {
