@@ -6,58 +6,59 @@ let weatherAPI = function (city) {
     let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
-    .then(function (response) {
-        response.json().then(function (data) {
-            console.log(data);
+        .then(function (response) {
+            response.json().then(function (data) {
+                console.log(data);
 
-            let currentCity = data.name;
-            // console.log(currentCity);
-            $("#current-city").text(currentCity + " (" + date + ")");
-            let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-            $("#current-city").append(currentCityImg);
+                let currentCity = data.name;
+                console.log(currentCity);
+                $("#current-city").text(currentCity + " (" + date + ")");
+                let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
+                $("#current-city").append(currentCityImg);
 
-            let currentTemp = data.main.temp;
-            // console.log(currentTemp);
-            $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
+                let currentTemp = data.main.temp;
+                console.log(currentTemp);
+                $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
 
-            let currentWeatherCondition = data.weather[0].main;
-            console.log(currentWeatherCondition);
+                let currentWeatherCondition = data.weather[0].main;
+                console.log(currentWeatherCondition);
 
-            let currentHumidity = data.main.humidity;
-            // console.log(currentHumidity);
-            $("#current-humidity").text("Humidity: " + currentHumidity + "%");
+                let currentHumidity = data.main.humidity;
+                console.log(currentHumidity);
+                $("#current-humidity").text("Humidity: " + currentHumidity + "%");
 
-            let currentWindSpeed = data.wind.speed;
-            // console.log(currentWindSpeed);
-            $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
+                let currentWindSpeed = data.wind.speed;
+                console.log(currentWindSpeed);
+                $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
 
-            // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
-            let currentLat = data.coord.lat;
-            let currentLon = data.coord.lon;
+                // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
+                let currentLat = data.coord.lat;
+                let currentLon = data.coord.lon;
 
-            const secondApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + currentLat + "&lon=" + currentLon + "&exclude=hourly,daily&appid=" + apiKey;
+                const secondApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + currentLat + "&lon=" + currentLon + "&exclude=hourly,daily&appid=" + apiKey;
 
-            fetch(secondApi)
-            .then(function(response) {
-                response.json().then(function(data) {
-                    // console.log(data);
-                    let uvIndex = data.current.uvi;
-                    // console.log(uvIndex);
-                    $("#uv-color").removeClass("hide")
-                    $("#uv-index").prepend("UV Index: ")
-                    $("#uv-color").text(uvIndex);
-                    if (uvIndex <= 2) {
-                        $("#uv-color").addClass("green");
-                    } else if (uvIndex <= 5) {
-                        $("#uv-color").addClass("yellow");
-                    } else if (uvIndex <= 7) {
-                        $("#uv-color").addClass("orange");
-                    } else if (uvIndex <= 10) 
-                        $("#uv-color").addClass("red");
+                fetch(secondApi)
+                .then(function(response) {
+                    response.json().then(function(data) {
+                        console.log(data);
+                        let uvIndex = data.current.uvi;
+                        console.log(uvIndex);
+                        $("#uv-color").removeClass("hide")
+                        $("#uv-index").prepend("UV Index: ")
+                        $("#uv-color").text(uvIndex);
+                        if (uvIndex <= 2) {
+                            $("#uv-color").addClass("green");
+                        } else if (uvIndex <= 5) {
+                            $("#uv-color").addClass("yellow");
+                        } else if (uvIndex <= 7) {
+                            $("#uv-color").addClass("orange");
+                        } else if (uvIndex <= 10) {
+                            $("#uv-color").addClass("red")
+                        }
+                    })
                 })
             })
         })
-    })
 };
 
 let index = 1;
@@ -65,36 +66,36 @@ let fiveDayWeather = function (city) {
     let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
-        .then(function (response) {
-            response.json().then(function (data) {
-                // console.log(data);
+    .then(function (response) {
+        response.json().then(function (data) {
+            console.log(data);
 
-                for (i = 0; i < data.list.length; i++) {
-                    // This is saying in dt_txt look for the value of 00:00:00
-                    // If the value of 00:00:00 doesn't exist, then the array is empty because an array can't have a negative index 
-                    if (data.list[i].dt_txt.indexOf("00:00:00") !== -1) {
-                        console.log(data.list[i]);
+            for (i = 0; i < data.list.length; i++) {
+                // This is saying in dt_txt look for the value of 00:00:00
+                // If the value of 00:00:00 doesn't exist, then the array is empty because an array can't have a negative index 
+                if (data.list[i].dt_txt.indexOf("00:00:00") !== -1) {
+                    console.log(data.list[i]);
 
-                        // new Date is creating a new date for each day
-                        let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
-                        let pTagOne = $("<h4>").text(fiveDayDate);
-                        let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
+                    // new Date is creating a new date for each day
+                    let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
+                    let pTagOne = $("<h4>").text(fiveDayDate);
+                    let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
 
-                        let fiveDayTemp = data.list[i].main.temp;
-                        let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + "°F");
+                    let fiveDayTemp = data.list[i].main.temp;
+                    let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + "°F");
 
-                        let fiveDayHumidity = data.list[i].main.humidity;
-                        let pTagThree = $("<p>").text("Humidity: " + fiveDayHumidity + "%");
+                    let fiveDayHumidity = data.list[i].main.humidity;
+                    let pTagThree = $("<p>").text("Humidity: " + fiveDayHumidity + "%");
 
-                        $(`#Day-${index}`).append(pTagOne);
-                        $(`#Day-${index}`).append(fiveDayDateImg);
-                        $(`#Day-${index}`).append(pTagTwo);
-                        $(`#Day-${index}`).append(pTagThree); 
-                        index++;
-                    }
+                    $(`#Day-${index}`).append(pTagOne);
+                    $(`#Day-${index}`).append(fiveDayDateImg);
+                    $(`#Day-${index}`).append(pTagTwo);
+                    $(`#Day-${index}`).append(pTagThree); 
+                    index++;
                 }
-            })
+            }
         })
+    })
 };
 
 function loadPreviousData() {
