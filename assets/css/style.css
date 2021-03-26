@@ -1,5 +1,17 @@
 .green {
-    background-color: green;
+    background-color: rgb(6, 179, 6);
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.red {
+    background-color: red;
 }
 
 .hide {

@@ -1,4 +1,4 @@
-const apiKey = "39f9546ef6f0a5b89bcb24b85f3a883a"
+const apiKey = "39f9546ef6f0a5b89bcb24b85f3a883a";
 const date = moment().format("MM/DD/YYYY");
 const locationInput = JSON.parse(localStorage.getItem("locationArray")) || [];
 
@@ -32,8 +32,8 @@ let weatherAPI = function (city) {
                 $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
 
                 // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
-                let currentLat = data.coord.lat
-                let currentLon = data.coord.lon
+                let currentLat = data.coord.lat;
+                let currentLon = data.coord.lon;
 
                 const secondApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + currentLat + "&lon=" + currentLon + "&exclude=hourly,daily&appid=" + apiKey;
 
@@ -47,8 +47,14 @@ let weatherAPI = function (city) {
                         $("#uv-index").prepend("UV Index: ")
                         $("#uv-color").text(uvIndex);
                         if (uvIndex <= 2) {
-                            $("#uv-color").addClass("green")
-                        } 
+                            $("#uv-color").addClass("green");
+                        } else if (uvIndex <= 5) {
+                            $("#uv-color").addClass("yellow")
+                        } else if (uvIndex <= 7) {
+                            $("#uv-color").addClass("orange")
+                        } else (uvIndex <= 10) {
+                            $("uv-color").addClass("red")
+                        }
                     })
                 })
             })
@@ -73,7 +79,7 @@ let fiveDayWeather = function (city) {
                         // new Date is creating a new date for each day
                         let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
                         let pTagOne = $("<h4>").text(fiveDayDate);
-                        let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png")
+                        let fiveDayDateImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
 
                         let fiveDayTemp = data.list[i].main.temp;
                         let pTagTwo = $("<p>").text("Temperature: " + Math.round(fiveDayTemp) + "°F");
@@ -95,29 +101,25 @@ let fiveDayWeather = function (city) {
 function loadPreviousData() {
     console.log(locationInput);
     // Targets the id of previous-search and clears the previous searches
-    $("#previous-search").empty("")
+    $("#previous-search").empty("");
 
-    let newVariable = locationInput.slice(0, 10)
-    $(newVariable).each(function(index) {
+    // Taking the array locationInput and only showing index values from 0-10
+    let limitItemBtn = locationInput.slice(0, 10)
+    $(limitItemBtn).each(function(index) {
         console.log(index);
 
         let reloadSearch = locationInput[index];
         console.log(reloadSearch);
 
-        // let createListItem = $("<li>").text(reloadSearch)
-        // console.log(createListItem)
-
-        let createListBtn = $("<li>").text(reloadSearch).addClass("list-group-item list-group-item-action")
+        let createListBtn = $("<li>").text(reloadSearch).addClass("list-group-item list-group-item-action");
         
-        console.log(createListBtn)
-        $("#previous-search").append(createListBtn)
-
-    
+        console.log(createListBtn);
+        $("#previous-search").append(createListBtn);
     })
 }
 
+// Function executes the weatherAPI, which will display city weather into the id of previous-search
 $("#previous-search").on("click", "li", function() {
-    console.log("randomText")
     weatherAPI($(this).text());
 })
 
