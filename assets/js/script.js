@@ -6,59 +6,58 @@ let weatherAPI = function (city) {
     let apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
-        .then(function (response) {
-            response.json().then(function (data) {
-                console.log(data);
+    .then(function (response) {
+        response.json().then(function (data) {
+            console.log(data);
 
-                let currentCity = data.name;
-                console.log(currentCity);
-                $("#current-city").text(currentCity + " (" + date + ")");
-                let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
-                $("#current-city").append(currentCityImg);
+            let currentCity = data.name;
+            // console.log(currentCity);
+            $("#current-city").text(currentCity + " (" + date + ")");
+            let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
+            $("#current-city").append(currentCityImg);
 
-                let currentTemp = data.main.temp;
-                console.log(currentTemp);
-                $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
+            let currentTemp = data.main.temp;
+            // console.log(currentTemp);
+            $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
 
-                let currentWeatherCondition = data.weather[0].main;
-                console.log(currentWeatherCondition);
+            let currentWeatherCondition = data.weather[0].main;
+            console.log(currentWeatherCondition);
 
-                let currentHumidity = data.main.humidity;
-                console.log(currentHumidity);
-                $("#current-humidity").text("Humidity: " + currentHumidity + "%");
+            let currentHumidity = data.main.humidity;
+            // console.log(currentHumidity);
+            $("#current-humidity").text("Humidity: " + currentHumidity + "%");
 
-                let currentWindSpeed = data.wind.speed;
-                console.log(currentWindSpeed);
-                $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
+            let currentWindSpeed = data.wind.speed;
+            // console.log(currentWindSpeed);
+            $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
 
-                // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
-                let currentLat = data.coord.lat;
-                let currentLon = data.coord.lon;
+            // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
+            let currentLat = data.coord.lat;
+            let currentLon = data.coord.lon;
 
-                const secondApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + currentLat + "&lon=" + currentLon + "&exclude=hourly,daily&appid=" + apiKey;
+            const secondApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + currentLat + "&lon=" + currentLon + "&exclude=hourly,daily&appid=" + apiKey;
 
-                fetch(secondApi)
-                .then(function(response) {
-                    response.json().then(function(data) {
-                        console.log(data);
-                        let uvIndex = data.current.uvi;
-                        console.log(uvIndex);
-                        $("#uv-color").removeClass("hide")
-                        $("#uv-index").prepend("UV Index: ")
-                        $("#uv-color").text(uvIndex);
-                        if (uvIndex <= 2) {
-                            $("#uv-color").addClass("green");
-                        } else if (uvIndex <= 5) {
-                            $("#uv-color").addClass("yellow")
-                        } else if (uvIndex <= 7) {
-                            $("#uv-color").addClass("orange")
-                        } else (uvIndex <= 10) {
-                            $("uv-color").addClass("red")
-                        }
-                    })
+            fetch(secondApi)
+            .then(function(response) {
+                response.json().then(function(data) {
+                    // console.log(data);
+                    let uvIndex = data.current.uvi;
+                    // console.log(uvIndex);
+                    $("#uv-color").removeClass("hide")
+                    $("#uv-index").prepend("UV Index: ")
+                    $("#uv-color").text(uvIndex);
+                    if (uvIndex <= 2) {
+                        $("#uv-color").addClass("green");
+                    } else if (uvIndex <= 5) {
+                        $("#uv-color").addClass("yellow");
+                    } else if (uvIndex <= 7) {
+                        $("#uv-color").addClass("orange");
+                    } else if (uvIndex <= 10) 
+                        $("#uv-color").addClass("red");
                 })
             })
         })
+    })
 };
 
 let index = 1;
@@ -68,7 +67,7 @@ let fiveDayWeather = function (city) {
     fetch(apiURL)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log(data);
+                // console.log(data);
 
                 for (i = 0; i < data.list.length; i++) {
                     // This is saying in dt_txt look for the value of 00:00:00
@@ -128,9 +127,9 @@ $("#searchBtn").on("click", function (event) {
     event.preventDefault();
     let searchCity = $("#search-city").val().trim();
     
-    // Takes the string value from user input and pushes it into an array
     if (locationInput.indexOf(searchCity) === -1) {
-
+        
+        // Takes the string value from user input and pushes it into an array
         locationInput.push(searchCity);
         console.log(searchCity);
         localStorage.setItem("locationArray", JSON.stringify(locationInput));
