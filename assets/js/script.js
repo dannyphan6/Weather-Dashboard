@@ -8,27 +8,27 @@ let weatherAPI = function (city) {
     fetch(apiURL)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log(data);
+                // console.log(data);
 
                 let currentCity = data.name;
-                console.log(currentCity);
+                // console.log(currentCity);
                 $("#current-city").text(currentCity + " (" + date + ")");
                 let currentCityImg = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
                 $("#current-city").append(currentCityImg);
 
                 let currentTemp = data.main.temp;
-                console.log(currentTemp);
+                // console.log(currentTemp);
                 $("#current-temp").text("Temperature: " + Math.round(currentTemp) + "°F");
 
                 let currentWeatherCondition = data.weather[0].main;
-                console.log(currentWeatherCondition);
+                // console.log(currentWeatherCondition);
 
                 let currentHumidity = data.main.humidity;
-                console.log(currentHumidity);
+                // console.log(currentHumidity);
                 $("#current-humidity").text("Humidity: " + currentHumidity + "%");
 
                 let currentWindSpeed = data.wind.speed;
-                console.log(currentWindSpeed);
+                // console.log(currentWindSpeed);
                 $("#current-wind-speed").text("Wind Speed: " + currentWindSpeed + "MPH");
 
                 // Creating variables to store coordinates, based on user search of city, to input as a parameter in secondApi
@@ -40,7 +40,7 @@ let weatherAPI = function (city) {
                 fetch(secondApi)
                 .then(function(response) {
                     response.json().then(function(data) {
-                        console.log(data);
+                        // console.log(data);
                         let uvIndex = data.current.uvi;
                         console.log(uvIndex);
                         $("#uv-index").empty("");
@@ -56,7 +56,7 @@ let weatherAPI = function (city) {
                         } else if (uvIndex <= 7) {
                             $("#uv-color").removeClass();
                             $("#uv-color").addClass("orange");
-                        } else if (uvIndex <= 10) {
+                        } else {
                             $("#uv-color").removeClass();
                             $("#uv-color").addClass("red");
                         }
@@ -68,23 +68,24 @@ let weatherAPI = function (city) {
 
 let index = 1;
 let fiveDayWeather = function (city) {
+    console.log("fiveDayWeather ::: ", city);
     let apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + apiKey;
 
     fetch(apiURL)
     .then(function (response) {
         response.json().then(function (data) {
-            console.log(data);
+            // console.log(data);
 
-            $(`#Day-1`).empty("")
-            $(`#Day-2`).empty("")
-            $(`#Day-3`).empty("")
-            $(`#Day-4`).empty("")
-            $(`#Day-5`).empty("")
+            // $(`#Day-1`).empty("")
+            // $(`#Day-2`).empty("")
+            // $(`#Day-3`).empty("")
+            // $(`#Day-4`).empty("")
+            // $(`#Day-5`).empty("")
             for (i = 0; i < data.list.length; i++) {
                 // This is saying in dt_txt look for the value of 00:00:00
                 // If the value of 00:00:00 doesn't exist, then the array is empty because an array can't have a negative index 
                 if (data.list[i].dt_txt.indexOf("00:00:00") !== -1) {
-                    console.log(data.list[i]);
+                    // console.log(data.list[i]);
 
                     // new Date is creating a new date for each day
                     let fiveDayDate = new Date(data.list[i].dt_txt).toLocaleDateString();
@@ -109,21 +110,21 @@ let fiveDayWeather = function (city) {
 };
 
 function loadPreviousData() {
-    console.log(locationInput);
+    // console.log(locationInput);
     // Targets the id of previous-search and clears the previous searches
     $("#previous-search").empty("");
 
     // Taking the array locationInput and only showing index values from 0-10
     let limitItemBtn = locationInput.slice(0, 10)
     $(limitItemBtn).each(function(index) {
-        console.log(index);
+        // console.log(index);
 
         let reloadSearch = locationInput[index];
-        console.log(reloadSearch);
+        // console.log(reloadSearch);
 
         let createListBtn = $("<li>").text(reloadSearch).addClass("list-group-item list-group-item-action");
         
-        console.log(createListBtn);
+        // console.log(createListBtn);
         $("#previous-search").append(createListBtn);
     })
 }
@@ -143,7 +144,7 @@ $("#searchBtn").on("click", function (event) {
         
         // Takes the string value from user input and pushes it into an array
         locationInput.push(searchCity);
-        console.log(searchCity);
+        // console.log(searchCity);
         localStorage.setItem("locationArray", JSON.stringify(locationInput));
         
     }
