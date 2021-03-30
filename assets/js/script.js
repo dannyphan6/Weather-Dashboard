@@ -142,6 +142,10 @@ $("#searchBtn").on("click", function (event) {
 
     if (locationInput.indexOf(searchCity) === -1) {
 
+        if(locationInput.length >= 10) {
+            locationInput.shift();
+        }
+
         // Takes the string value from user input and pushes it into an array
         locationInput.push(searchCity);
         // console.log(searchCity);
